@@ -1,69 +1,268 @@
 import tkinter as tk
+from tkinter.ttk import Label
 from tkinter import *
 from PIL import Image, ImageTk
-import dict_methods
-import dict_methods_test
 import dict_methods_test_data
+import dict_methods
 
 
 
-# main window
+# Done
+def open_add_window():
+    new_window = tk.Toplevel(main_window)
+    new_window.title("Add To Cart")
+    Label(new_window, text="Add items to shopping cart", font=("Arial", 25)).pack(pady=10,padx=10)
+    left_frame = Frame(new_window)
+    left_frame.pack(side="left", padx=(10,5), pady=5)
+
+    mid_frame = Frame(new_window)
+    mid_frame.pack(side="left", padx=5, pady=5)
+
+    right_frame = Frame(new_window)
+    right_frame.pack(side="left", padx=(5,10), pady=5)
+
+    Label(left_frame, text="Current Cart").pack()
+    Label(mid_frame, text="Items to Add").pack()
+    Label(right_frame, text="New Cart").pack()
+
+    current_cart_list = dict_methods_test_data.add_item_inputs
+    new_cart_list = dict_methods_test_data.add_item_outputs
+
+    for row in current_cart_list:
+        cart = row[0]
+        items = row[1]
+        new_items = tk.Variable(value=items)
+        cart_listbox = Listbox(left_frame)
+        cart_listbox.pack(pady=5)
+        for key in cart:
+            cart_listbox.insert(END, '{}: {}'.format(key,cart[key]))
+        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
+
+    for item in new_cart_list:
+        cart = item
+        new_cart = Listbox(right_frame)
+        new_cart.pack(pady=5)
+        for key in cart:
+            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
+
+def open_read_window():
+    new_window = tk.Toplevel(main_window)
+    new_window.title("Read notes")
+    Label(new_window, text="Create user cart from an iterable notes entry").pack(pady=10, padx=10)
+
+    left_frame = Frame(new_window)
+    left_frame.pack(side="left", padx=(10, 5), pady=5)
+
+    right_frame = Frame(new_window)
+    right_frame.pack(side="right", padx=(5, 10), pady=5)
+
+    Label(left_frame, text="Customer Notes").pack()
+    Label(right_frame, text="Shopping Cart").pack()
+
+    notes_list = dict_methods_test_data.read_notes_inputs
+    cart_list = dict_methods_test_data.read_notes_outputs
+
+    for row in notes_list:
+        items = row
+        new_items = tk.Variable(value=items)
+        Listbox(left_frame, listvariable=new_items).pack(pady=5)
+
+    for item in cart_list:
+        cart = item
+        new_cart = Listbox(right_frame)
+        new_cart.pack(pady=5)
+        for key in cart:
+            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
+
+# Needs fixing
+def open_update_window():
+    new_window = tk.Toplevel(main_window)
+    new_window.title("Update Recipies")
+    Label(new_window, text="Update the recipe ideas dictionary").pack(pady=10, padx=10)
+
+    left_frame = Frame(new_window)
+    left_frame.pack(side="left", padx=(10, 5), pady=5)
+
+    mid_frame = Frame(new_window)
+    mid_frame.pack(side="left", padx=5, pady=5)
+
+    right_frame = Frame(new_window)
+    right_frame.pack(side="left", padx=(5, 10), pady=5)
+
+    Label(left_frame, text="Current Cart").pack()
+    Label(mid_frame, text="Items to Add").pack()
+    Label(right_frame, text="New Cart").pack()
+
+    current_cart_list = dict_methods_test_data.update_recipes_inputs
+    new_cart_list = dict_methods_test_data.update_recipes_outputs
+
+    for row in current_cart_list:
+        cart = row[0]
+        items = row[1]
+        new_items = tk.Variable(value=items)
+        cart_listbox = Listbox(left_frame)
+        cart_listbox.pack(pady=5)
+        for key in cart:
+            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
+        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
+
+    for item in new_cart_list:
+        cart = item
+        new_cart = Listbox(right_frame)
+        new_cart.pack(pady=5)
+        for key in cart:
+            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
+# Done
+def open_sort_window():
+    new_window = tk.Toplevel(main_window)
+    new_window.title("Sort Cart")
+    Label(new_window, text="Combine users order to store aisle").pack(pady=10, padx=10)
+
+    left_frame = Frame(new_window)
+    left_frame.pack(side="left", padx=(10, 5), pady=5)
+
+    right_frame = Frame(new_window)
+    right_frame.pack(side="left", padx=(5, 10), pady=5)
+
+    Label(left_frame, text="Current Cart").pack()
+    Label(right_frame, text="Sorted Cart").pack()
+
+    current_cart_list = dict_methods_test_data.sort_entries_inputs
+    new_cart_list = dict_methods_test_data.sort_entries_outputs
+
+    for row in current_cart_list:
+        cart = row
+        cart_listbox = Listbox(left_frame)
+        cart_listbox.pack(pady=5)
+        for key in cart:
+            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
+
+
+    for item in new_cart_list:
+        cart = item
+        new_cart = Listbox(right_frame)
+        new_cart.pack(pady=5)
+        for key in cart:
+            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
+
+# Rest Needs fixing
+def open_send_window():
+    new_window = tk.Toplevel(main_window)
+    new_window.title("Send to Store")
+    Label(new_window, text="Update store inventory levels").pack(pady=10, padx=10)
+
+    left_frame = Frame(new_window)
+    left_frame.pack(side="left", padx=(10, 5), pady=5)
+
+    mid_frame = Frame(new_window)
+    mid_frame.pack(side="left", padx=5, pady=5)
+
+    right_frame = Frame(new_window)
+    right_frame.pack(side="left", padx=(5, 10), pady=5)
+
+    Label(left_frame, text="Current Cart").pack()
+    Label(mid_frame, text="Items to Add").pack()
+    Label(right_frame, text="New Cart").pack()
+
+    current_cart_list = dict_methods_test_data.send_to_store_inputs
+    new_cart_list = dict_methods_test_data.send_to_store_outputs
+
+    for row in current_cart_list:
+        cart = row[0]
+        items = row[1]
+        new_items = tk.Variable(value=items)
+        cart_listbox = Listbox(left_frame)
+        cart_listbox.pack(pady=5)
+        for key in cart:
+            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
+        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
+
+    for item in new_cart_list:
+        cart = item
+        new_cart = Listbox(right_frame)
+        new_cart.pack(pady=5)
+        for key in cart:
+            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
+
+def open_inventory_window():
+    new_window = tk.Toplevel(main_window)
+    new_window.title("Update Inventory")
+    Label(new_window, text="Add items to shopping cart").pack(pady=10, padx=10)
+
+    left_frame = Frame(new_window)
+    left_frame.pack(side="left", padx=(10, 5), pady=5)
+
+    mid_frame = Frame(new_window)
+    mid_frame.pack(side="left", padx=5, pady=5)
+
+    right_frame = Frame(new_window)
+    right_frame.pack(side="left", padx=(5, 10), pady=5)
+
+    Label(left_frame, text="Current Cart").pack()
+    Label(mid_frame, text="Items to Add").pack()
+    Label(right_frame, text="New Cart").pack()
+
+    current_cart_list = dict_methods_test_data.update_store_inventory_inputs
+    new_cart_list = dict_methods_test_data.update_store_inventory_outputs
+
+    for row in current_cart_list:
+        cart = row[0]
+        items = row[1]
+        new_items = tk.Variable(value=items)
+        cart_listbox = Listbox(left_frame)
+        cart_listbox.pack(pady=5)
+        for key in cart:
+            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
+        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
+
+    for item in new_cart_list:
+        cart = item
+        new_cart = Listbox(right_frame)
+        new_cart.pack(pady=5)
+        for key in cart:
+            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
+
 main_window = tk.Tk()
-main_window.geometry("400x400")
-main_window.title("Fruit and Vegetable Database")
+main_window.title("Main")
+Label(text="Select Exercise to View", font=("Arial", 25)).grid(row=0, padx=10,pady=10)
+add_button = tk.Button(main_window, text="Add Items", command=open_add_window)
+add_button.grid(row=1, pady=5, padx=10)
+read_button = tk.Button(main_window, text="Read Cart", command=open_read_window)
+read_button.grid(row=2, pady=5, padx=10)
+update_button = tk.Button(main_window, text="Update Recipies", command=open_update_window)
+update_button.grid(row=3, pady=5, padx=10)
+sort_button = tk.Button(main_window, text="Sort Cart", command=open_sort_window)
+sort_button.grid(row=4, pady=5, padx=10)
+send_button = tk.Button(main_window, text="Send Order", command=open_send_window)
+send_button.grid(row=5, pady=5, padx=10)
+inventory_button = tk.Button(main_window, text="Update Inventory", command=open_inventory_window)
+inventory_button.grid(row=6, pady=5, padx=10)
+quit_button = tk.Button(main_window, text="Close", command=main_window.destroy)
+quit_button.grid(row=7, pady=(15,5), padx=10)
 
-# content frames
-produce_frame = Frame()
-produce_frame.pack(side=TOP, padx=10, pady=5, anchor="w")
-button_frame = Frame()
-button_frame.pack(side=BOTTOM, pady=5, fill=X)
+path = "/home/robert/Desktop/VSCENV/Week 3/Images/"
 
-# images
-apple = ImageTk.PhotoImage(Image.open("Week 3/images/apple.png"))
-banana = ImageTk.PhotoImage(Image.open("Week 3/images/banana.png"))
-carrot = ImageTk.PhotoImage(Image.open("Week 3/images/carrot.png"))
-corn = ImageTk.PhotoImage(Image.open("Week 3/images/corn.png"))
-grape = ImageTk.PhotoImage(Image.open("Week 3/images/grape.png"))
-tomato = ImageTk.PhotoImage(Image.open("Week 3/images/tomato.png"))
+apple = ImageTk.PhotoImage(Image.open(path + "apple.png"))
+avocado = ImageTk.PhotoImage(Image.open(path + "avocado.png"))
+banana = ImageTk.PhotoImage(Image.open(path + "banana.png"))
+blueberry = ImageTk.PhotoImage(Image.open(path + "blueberry.png"))
+broccoli = ImageTk.PhotoImage(Image.open(path + "broccoli.png"))
+carrot = ImageTk.PhotoImage(Image.open(path + "carrot.png"))
+corn = ImageTk.PhotoImage(Image.open(path + "corn.png"))
+grape = ImageTk.PhotoImage(Image.open(path + "grape.png"))
+juice = ImageTk.PhotoImage(Image.open(path + "juice.png"))
+kiwi = ImageTk.PhotoImage(Image.open(path + "kiwi.png"))
+melon = ImageTk.PhotoImage(Image.open(path + "melon.png"))
+milk = ImageTk.PhotoImage(Image.open(path + "milk.png"))
+orange = ImageTk.PhotoImage(Image.open(path + "orange.png"))
+pear = ImageTk.PhotoImage(Image.open(path + "pear.png"))
+raspberry = ImageTk.PhotoImage(Image.open(path + "raspberry.png"))
+tomato = ImageTk.PhotoImage(Image.open(path + "tomato.png"))
+yoghurt = ImageTk.PhotoImage(Image.open(path + "yoghurt.png"))
 
-# produce images
-apple_img = Label(produce_frame, image=apple).grid(row=0,column=0,sticky=W,pady=2)
-banana_img = tk.Label(produce_frame,image=banana).grid(row=1,column=0,sticky=W,pady=2)
-carrot_img = tk.Label(produce_frame,image=carrot).grid(row=2,column=0,sticky=W,pady=2)
-corn_img = tk.Label(produce_frame,image=corn).grid(row=3,column=0,sticky=W,pady=2)
-grape_img = tk.Label(produce_frame,image=grape).grid(row=4,column=0,sticky=W,pady=2)
-tomato_img = tk.Label(produce_frame,image=tomato).grid(row=5,column=0,sticky=W,pady=2)
+produce_img = [apple,avocado,banana,broccoli,carrot,corn,grape,juice,kiwi,
+               melon,milk,orange,pear,raspberry,tomato,yoghurt]
+produce_txt = ['apple','avocado','banana','broccoli','carrot','corn','grape','juice','kiwi','melon',
+           'milk','orange','pear','raspberry','tomato','yoghurt']
 
-# produce labels
-Label(produce_frame, text="Apple", font=("arial", 20)).grid(row=0,column=1, padx=10)
-Label(produce_frame, text="Banana", font=("arial", 20)).grid(row=1,column=1,padx=10)
-Label(produce_frame, text="Carrot", font=("arial", 20)).grid(row=2,column=1,padx=10)
-Label(produce_frame, text="Corn", font=("arial", 20)).grid(row=3,column=1,padx=10)
-Label(produce_frame, text="Grapes", font=("arial", 20)).grid(row=4,column=1,padx=10)
-Label(produce_frame, text="Tomato", font=("arial", 20)).grid(row=5,column=1,padx=10)
-
-# produce entry boxes
-apple_text = Entry(produce_frame, width=10).grid(row=0, column=2, padx=10)
-banana_text = Entry(produce_frame, width=10).grid(row=1, column=2, padx=10)
-carrot_text = Entry(produce_frame, width=10).grid(row=2, column=2, padx=10)
-corn_text = Entry(produce_frame, width=10).grid(row=3, column=2, padx=10)
-grape_text = Entry(produce_frame, width=10).grid(row=4, column=2, padx=10)
-tomato_text = Entry(produce_frame, width=10).grid(row=5, column=2, padx=10)
-
-
-def close_press():
-    main_window.destroy()
-
-
-#buttons
-main_menu_button = Button(button_frame, text="Main Menu").pack(side=LEFT, padx=10)
-confirm_button = Button(button_frame, text="Confirm Purchase").pack(side=RIGHT, padx=10)
-
-quit_button = tk.Button(button_frame, text="Quit", command=close_press)
-quit_button.pack(side=RIGHT, padx=10)
-
-
-
-
-# start loop
 main_window.mainloop()
