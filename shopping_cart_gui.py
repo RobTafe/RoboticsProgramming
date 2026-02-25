@@ -1,247 +1,56 @@
 import tkinter as tk
 from tkinter.ttk import Label
 from tkinter import *
+import tkinter.messagebox
 from PIL import Image, ImageTk
-import dict_methods_test_data
 import dict_methods
 
+# sample data
+shop_cart = {"Apple": 3, "Banana": 1, "Raspberry": 10}
+new_items = []
 
+# new window to confirm payment
+def open_sort_window(to_be_sorted):
+    # reset button state from main window
+    confirm_button.config(state="disabled")
+    add_to_cart_button.config(state="active")
 
-# Done
-def open_add_window():
-    new_window = tk.Toplevel(main_window)
-    new_window.title("Add To Cart")
-    Label(new_window, text="Add items to shopping cart", font=("Arial", 25)).pack(pady=10,padx=10)
-    left_frame = Frame(new_window)
-    left_frame.pack(side="left", padx=(10,5), pady=5)
+    # creates window and frame
+    sort_window = tk.Toplevel(main_window)
+    sort_window.title("Shopping Checkout")
+    top_frame = Frame(sort_window)
+    top_frame.pack(side="top", padx=5, pady=5)
+    Label(top_frame, text="Your Cart", font=("Arial",25)).pack(padx=80)
 
-    mid_frame = Frame(new_window)
-    mid_frame.pack(side="left", padx=5, pady=5)
+    # sorts cart into alphabetical order
+    sorted_list = dict_methods.sort_entries(to_be_sorted)
+    for entry in sorted_list.items():
+        Label(top_frame, text=f"{entry[0]}, {entry[1]}").pack(padx=10, pady=5)
 
-    right_frame = Frame(new_window)
-    right_frame.pack(side="left", padx=(5,10), pady=5)
+    # opens messagebox from confirm order button
+    def confirmed():
+        result = tk.messagebox.askyesno("Thank you!", "Return to store?", parent=sort_window)
+        if not result:
+            main_window.destroy() # closes app
+        else:
+            sort_window.destroy() # returns to main window
 
-    Label(left_frame, text="Current Cart").pack()
-    Label(mid_frame, text="Items to Add").pack()
-    Label(right_frame, text="New Cart").pack()
+    Button(top_frame, text="Confirm Payment", command=confirmed).pack(pady=5)
 
-    current_cart_list = dict_methods_test_data.add_item_inputs
-    new_cart_list = dict_methods_test_data.add_item_outputs
-
-    for row in current_cart_list:
-        cart = row[0]
-        items = row[1]
-        new_items = tk.Variable(value=items)
-        cart_listbox = Listbox(left_frame)
-        cart_listbox.pack(pady=5)
-        for key in cart:
-            cart_listbox.insert(END, '{}: {}'.format(key,cart[key]))
-        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
-
-    for item in new_cart_list:
-        cart = item
-        new_cart = Listbox(right_frame)
-        new_cart.pack(pady=5)
-        for key in cart:
-            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
-
-def open_read_window():
-    new_window = tk.Toplevel(main_window)
-    new_window.title("Read notes")
-    Label(new_window, text="Create user cart from an iterable notes entry").pack(pady=10, padx=10)
-
-    left_frame = Frame(new_window)
-    left_frame.pack(side="left", padx=(10, 5), pady=5)
-
-    right_frame = Frame(new_window)
-    right_frame.pack(side="right", padx=(5, 10), pady=5)
-
-    Label(left_frame, text="Customer Notes").pack()
-    Label(right_frame, text="Shopping Cart").pack()
-
-    notes_list = dict_methods_test_data.read_notes_inputs
-    cart_list = dict_methods_test_data.read_notes_outputs
-
-    for row in notes_list:
-        items = row
-        new_items = tk.Variable(value=items)
-        Listbox(left_frame, listvariable=new_items).pack(pady=5)
-
-    for item in cart_list:
-        cart = item
-        new_cart = Listbox(right_frame)
-        new_cart.pack(pady=5)
-        for key in cart:
-            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
-
-# Needs fixing
-def open_update_window():
-    new_window = tk.Toplevel(main_window)
-    new_window.title("Update Recipies")
-    Label(new_window, text="Update the recipe ideas dictionary").pack(pady=10, padx=10)
-
-    left_frame = Frame(new_window)
-    left_frame.pack(side="left", padx=(10, 5), pady=5)
-
-    mid_frame = Frame(new_window)
-    mid_frame.pack(side="left", padx=5, pady=5)
-
-    right_frame = Frame(new_window)
-    right_frame.pack(side="left", padx=(5, 10), pady=5)
-
-    Label(left_frame, text="Current Cart").pack()
-    Label(mid_frame, text="Items to Add").pack()
-    Label(right_frame, text="New Cart").pack()
-
-    current_cart_list = dict_methods_test_data.update_recipes_inputs
-    new_cart_list = dict_methods_test_data.update_recipes_outputs
-
-    for row in current_cart_list:
-        cart = row[0]
-        items = row[1]
-        new_items = tk.Variable(value=items)
-        cart_listbox = Listbox(left_frame)
-        cart_listbox.pack(pady=5)
-        for key in cart:
-            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
-        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
-
-    for item in new_cart_list:
-        cart = item
-        new_cart = Listbox(right_frame)
-        new_cart.pack(pady=5)
-        for key in cart:
-            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
-# Done
-def open_sort_window():
-    new_window = tk.Toplevel(main_window)
-    new_window.title("Sort Cart")
-    Label(new_window, text="Combine users order to store aisle").pack(pady=10, padx=10)
-
-    left_frame = Frame(new_window)
-    left_frame.pack(side="left", padx=(10, 5), pady=5)
-
-    right_frame = Frame(new_window)
-    right_frame.pack(side="left", padx=(5, 10), pady=5)
-
-    Label(left_frame, text="Current Cart").pack()
-    Label(right_frame, text="Sorted Cart").pack()
-
-    current_cart_list = dict_methods_test_data.sort_entries_inputs
-    new_cart_list = dict_methods_test_data.sort_entries_outputs
-
-    for row in current_cart_list:
-        cart = row
-        cart_listbox = Listbox(left_frame)
-        cart_listbox.pack(pady=5)
-        for key in cart:
-            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
-
-
-    for item in new_cart_list:
-        cart = item
-        new_cart = Listbox(right_frame)
-        new_cart.pack(pady=5)
-        for key in cart:
-            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
-
-# Rest Needs fixing
-def open_send_window():
-    new_window = tk.Toplevel(main_window)
-    new_window.title("Send to Store")
-    Label(new_window, text="Update store inventory levels").pack(pady=10, padx=10)
-
-    left_frame = Frame(new_window)
-    left_frame.pack(side="left", padx=(10, 5), pady=5)
-
-    mid_frame = Frame(new_window)
-    mid_frame.pack(side="left", padx=5, pady=5)
-
-    right_frame = Frame(new_window)
-    right_frame.pack(side="left", padx=(5, 10), pady=5)
-
-    Label(left_frame, text="Current Cart").pack()
-    Label(mid_frame, text="Items to Add").pack()
-    Label(right_frame, text="New Cart").pack()
-
-    current_cart_list = dict_methods_test_data.send_to_store_inputs
-    new_cart_list = dict_methods_test_data.send_to_store_outputs
-
-    for row in current_cart_list:
-        cart = row[0]
-        items = row[1]
-        new_items = tk.Variable(value=items)
-        cart_listbox = Listbox(left_frame)
-        cart_listbox.pack(pady=5)
-        for key in cart:
-            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
-        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
-
-    for item in new_cart_list:
-        cart = item
-        new_cart = Listbox(right_frame)
-        new_cart.pack(pady=5)
-        for key in cart:
-            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
-
-def open_inventory_window():
-    new_window = tk.Toplevel(main_window)
-    new_window.title("Update Inventory")
-    Label(new_window, text="Add items to shopping cart").pack(pady=10, padx=10)
-
-    left_frame = Frame(new_window)
-    left_frame.pack(side="left", padx=(10, 5), pady=5)
-
-    mid_frame = Frame(new_window)
-    mid_frame.pack(side="left", padx=5, pady=5)
-
-    right_frame = Frame(new_window)
-    right_frame.pack(side="left", padx=(5, 10), pady=5)
-
-    Label(left_frame, text="Current Cart").pack()
-    Label(mid_frame, text="Items to Add").pack()
-    Label(right_frame, text="New Cart").pack()
-
-    current_cart_list = dict_methods_test_data.update_store_inventory_inputs
-    new_cart_list = dict_methods_test_data.update_store_inventory_outputs
-
-    for row in current_cart_list:
-        cart = row[0]
-        items = row[1]
-        new_items = tk.Variable(value=items)
-        cart_listbox = Listbox(left_frame)
-        cart_listbox.pack(pady=5)
-        for key in cart:
-            cart_listbox.insert(END, '{}: {}'.format(key, cart[key]))
-        Listbox(mid_frame, listvariable=new_items).pack(pady=5)
-
-    for item in new_cart_list:
-        cart = item
-        new_cart = Listbox(right_frame)
-        new_cart.pack(pady=5)
-        for key in cart:
-            new_cart.insert(END, '{}: {}'.format(key, cart[key]))
-
+# main window settings
 main_window = tk.Tk()
-main_window.title("Main")
-Label(text="Select Exercise to View", font=("Arial", 25)).grid(row=0, padx=10,pady=10)
-add_button = tk.Button(main_window, text="Add Items", command=open_add_window)
-add_button.grid(row=1, pady=5, padx=10)
-read_button = tk.Button(main_window, text="Read Cart", command=open_read_window)
-read_button.grid(row=2, pady=5, padx=10)
-update_button = tk.Button(main_window, text="Update Recipies", command=open_update_window)
-update_button.grid(row=3, pady=5, padx=10)
-sort_button = tk.Button(main_window, text="Sort Cart", command=open_sort_window)
-sort_button.grid(row=4, pady=5, padx=10)
-send_button = tk.Button(main_window, text="Send Order", command=open_send_window)
-send_button.grid(row=5, pady=5, padx=10)
-inventory_button = tk.Button(main_window, text="Update Inventory", command=open_inventory_window)
-inventory_button.grid(row=6, pady=5, padx=10)
-quit_button = tk.Button(main_window, text="Close", command=main_window.destroy)
-quit_button.grid(row=7, pady=(15,5), padx=10)
+main_window.title("Shopping App")
+left_frame = Frame(main_window)
+left_frame.pack(side="left", padx=(10,5), pady=5)
+mid_frame = Frame(main_window)
+mid_frame.pack(side="left", anchor="n", padx=(10, 5), pady=5)
+right_frame = Frame(main_window)
+right_frame.pack(side="right", anchor="n", padx=(5, 10), pady=5)
 
+# change
 path = "/home/robert/Desktop/VSCENV/Week 3/Images/"
 
+# add images of produce
 apple = ImageTk.PhotoImage(Image.open(path + "apple.png"))
 avocado = ImageTk.PhotoImage(Image.open(path + "avocado.png"))
 banana = ImageTk.PhotoImage(Image.open(path + "banana.png"))
@@ -260,9 +69,69 @@ raspberry = ImageTk.PhotoImage(Image.open(path + "raspberry.png"))
 tomato = ImageTk.PhotoImage(Image.open(path + "tomato.png"))
 yoghurt = ImageTk.PhotoImage(Image.open(path + "yoghurt.png"))
 
-produce_img = [apple,avocado,banana,broccoli,carrot,corn,grape,juice,kiwi,
+produce_images = [apple,avocado,banana,broccoli,carrot,corn,grape,juice,kiwi,
                melon,milk,orange,pear,raspberry,tomato,yoghurt]
-produce_txt = ['apple','avocado','banana','broccoli','carrot','corn','grape','juice','kiwi','melon',
-           'milk','orange','pear','raspberry','tomato','yoghurt']
+produce_names = ['Apple','Avocado','Banana','Broccoli','Carrot','Corn','Grape','Juice','Kiwi','Melon',
+           'Milk','Orange','Pear','Raspberry','Tomato','Yoghurt']
+
+# display all items in the full cart
+def show_shopping_cart():
+    r = 1
+    for key, num in shop_cart.items():
+        Label(right_frame, text="Shopping Cart", font=("arial", 25)).grid(row=0, columnspan=True, pady=10)
+        (Label(right_frame, borderwidth=2, border=2, text=key, font=("arial", 15))
+         .grid(row=r, column=0, padx=10,sticky="w"))
+        Label(right_frame, text=num, font=("arial", 15)).grid(row=r, column=1, sticky="n")
+        r += 1
+
+# add item to new items list
+def add_to_cart(name):
+    new_items.append(name)
+
+Label(mid_frame, text="New Items", font=("Arial",25)).pack(pady=10)
+Label(left_frame, text="Produce", font=("arial",25)).grid(row=0, columnspan=2, pady=10)
+
+# creation of produce button array
+row = 1
+column = 0
+index = 0
+# make listbox
+selected_produce = Listbox(mid_frame)
+selected_produce.pack(padx=5)
+
+for item in produce_names:
+    def action(x = item):
+        selected_produce.insert(END, x) # inserts item into listbox
+        add_to_cart_button.config(state="active") # activates button
+        return add_to_cart(x) # sends name of produce to listbox
+    (Button(left_frame, width=150, height=50, text=item, image=produce_images[index], compound="left", command=action)
+     .grid(row=row, column=column,sticky="w"))
+    row += 1
+    if row == 9:
+        row = 1
+        column += 1
+    index += 1
+
+show_shopping_cart()
+
+# opens sort window
+confirm_button = Button(right_frame, anchor="s", text="Confirm Order", command=lambda: open_sort_window(shop_cart))
+confirm_button.grid(row=99)
+confirm_button.config(state="disabled")
+
+# adds items from new item listbox
+def add_items():
+    if len(new_items) != 0:
+        dict_methods.add_item(shop_cart,new_items)
+        add_to_cart_button.config(state="disabled")
+        confirm_button.config(state="active")
+        new_items.clear()
+        show_shopping_cart()
+        selected_produce.delete(0,"end")
+    else:
+        tk.messagebox.showerror("No new items","You must select items to proceed",parent=main_window)
+
+add_to_cart_button = Button(mid_frame, text="Add to cart",command=add_items)
+add_to_cart_button.pack(anchor="s")
 
 main_window.mainloop()
