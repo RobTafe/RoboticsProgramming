@@ -1,8 +1,4 @@
 # RoboticsProgramming
-Repo for the robotics programming course
-
-Package Justification (3-4 paragraphs required):
-Write a brief explanation including:
 
 Why you chose this package (pros that matter for your project)
 I chose to use tkinter for this project mainly because I've used it before and am familiar with it.
